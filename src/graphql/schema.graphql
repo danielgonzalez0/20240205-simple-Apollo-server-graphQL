@@ -1,3 +1,17 @@
+#custom type
+
+type User{
+ id: ID!
+ name: String!
+ email: String!
+ age: Int
+ }
+
+
+# The Query type represents all of the entry points for the API.
+
 type Query {
   hello: String!
+  users: [User!]! #return array of users min 1 array with 1 user
+  user(id: ID!): User!
   }
