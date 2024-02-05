@@ -1,0 +1,81 @@
+https://www.apollographql.com/docs/apollo-server/getting-started/
+
+1. Paramétrer TypeScript, ESLint, Prettier :
+
+- npm init -y
+
+pour initier le projet en créant un package.json qui est le fichier de config centrale d'un projet node
+contient métadonnées comme le nom, version dépendances requises
+
+- pnpm install typescript eslint prettier @types/node --save-dev
+
+@types/node : C'est un paquet de types de déclaration pour Node.js. Ces types de déclaration permettent à TypeScript de comprendre la structure et les fonctionnalités de l'environnement Node.js, afin que tu puisses écrire du code TypeScript qui interagit correctement avec les API spécifiques à Node.js.
+
+me: 
+@types/node permet au compilateur de TS de comprendre les modules que l'on peut utiliser coté back pour les transformer en js
+
+
+
+- ajout  "type": "module" dans package.json
+
+- npx tsc --init pour initialiser tsconfig.json pour configurer le compileur typescript
+
+remplacer la config par 
+
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig to read more about this file */
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "lib": ["es2020"],
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "types": ["node"]
+  }
+}
+
+- pnpm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-prettier eslint-plugin-prettier --save-dev
+
+eslint : Le paquet principal d'ESLint, qui te permet de détecter et de signaler des erreurs de code dans ton projet.
+
+@typescript-eslint/parser : Un analyseur de code ESLint spécialement conçu pour comprendre le code TypeScript.
+
+@typescript-eslint/eslint-plugin : Un plugin ESLint pour des règles spécifiques à TypeScript. Il fonctionne en tandem avec l'analyseur @typescript-eslint/parser.
+
+eslint-config-prettier : Une configuration ESLint qui désactive les règles qui pourraient entrer en conflit avec Prettier, le formateur de code.
+
+eslint-plugin-prettier : Un plugin ESLint qui intègre Prettier dans ESLint, permettant d'exécuter Prettier en tant que règle ESLint.
+
+Après l'installation de ces paquets, assure-toi de créer un fichier de configuration .eslintrc.js ou .eslintrc.json 
+
+
+- npm init @eslint/config
+
+eslintrc.json 
+
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module"
+  },
+  "plugins": ["@typescript-eslint", "prettier"],
+  "rules": {
+    "prettier/prettier": "error",
+    "@typescript-eslint/no-unused-vars": "warn"
+  }
+}
+
+script =>  "lint": "eslint src/**/*.{ts,tsx}"
