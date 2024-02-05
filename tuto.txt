@@ -25,15 +25,16 @@ remplacer la config par
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
-    "rootDir": "./src",
-    "outDir": "./dist",
+    "rootDirs": ["src"],
+    "outDir": "dist",
     "lib": ["es2020"],
     "target": "ES2020",
-    "module": "ESNext",
+    "module": "CommonJS",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "types": ["node"]
-  }
+    "types": ["node"],
+    "sourceMap": false
+}
 }
 
 - pnpm install eslint @typescript-eslint/parser @typescript-eslint/eslint-plugin eslint-config-prettier eslint-plugin-prettier --save-dev
@@ -73,9 +74,57 @@ eslintrc.json
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
-    "prettier/prettier": "error",
     "@typescript-eslint/no-unused-vars": "warn"
   }
 }
 
 script =>  "lint": "eslint src/**/*.{ts,tsx}"
+
+2) installer apollo server et graphQL
+
+pnpm install @apollo/server graphql
+
+créer src et index.ts
+
+dans package.json ajouter dans script => 
+  "scripts": {
+    "compile": "tsc",
+    "dev": "npm run compile && node ./dist/index.js"
+  }
+
+3) créer le fichier src et index.ts
+
+4) créer schema.graphql dans src/graphql et resolvers.ts dans src/resolvers
+
+schema.graphql
+
+type Query {
+  hello: String!
+  }
+
+resolvers.ts
+
+const resolvers = {
+  Query: {
+    hello: () => 'Hello, World!',
+  },
+};
+
+export default resolvers;
+
+index.ts
+
+import { ApolloServer } from 'apollo-server';
+import resolvers from './resolvers/resolvers';
+import path from 'path';
+import fs from 'fs';
+
+const pathName ="../src/graphql/schema.graphql";
+const schemaPath = path.join(__dirname, pathName);
+const typeDefs = fs.readFileSync(schemaPath, 'utf-8');
+
+const server = new ApolloServer({ typeDefs, resolvers });
+
+server.listen().then(({ url }) => {
+  console.log(`Server ready at ${url}`);
+});
