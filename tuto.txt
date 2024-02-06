@@ -128,3 +128,14 @@ const server = new ApolloServer({ typeDefs, resolvers });
 server.listen().then(({ url }) => {
   console.log(`Server ready at ${url}`);
 });
+
+5) modif du script de dev pour compiler et relancer le serveur a chaque modif
+- installer nodemon
+- npm install --save-dev concurrently
+- "dev": "concurrently \"npm run compile:watch\" \"nodemon ./dist/index.js\""
+- Ajoute un nouveau script dans package.json pour la compilation en mode watch :
+
+"compile:watch": "tsc -w"
+pnpm install --save-dev concurrently
+
+6) créer un compte heroku pour hebergement

@@ -12,8 +12,9 @@ const users = [
 const resolvers = {
     Query: {
         hello: () => 'Hello, World!',
+        test: () => 'Test1',
         users: () => users,
-        user: (parent, args) => users.find((user) => user.id === Number(args.id))
+        user: (parent, args) => users.find((user) => user.id === Number(args.id)),
     }, // Add a comma here
 };
 exports.default = resolvers;

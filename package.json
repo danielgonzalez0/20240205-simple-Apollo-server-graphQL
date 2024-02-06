@@ -7,7 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint src/**/*.{ts,tsx}",
     "compile": "tsc",
-    "dev": "npm run compile && nodemon ./dist/index.js"
+    "compile:watch": "tsc -w",
+    "dev": "concurrently \"npm run compile:watch\" \"nodemon ./dist/index.js\"",
+    "start": "npm run compile && nodemon ./dist/index.js"
   },
   "keywords": [],
   "author": "",
