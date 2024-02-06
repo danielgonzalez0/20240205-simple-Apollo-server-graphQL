@@ -6,6 +6,7 @@ const users = [
     age: 25,
   },
   { id: 2, name: 'Jane Doe', email: 'jane@gmail.com', age: 26 },
+  { id: 3, name: 'kate Doe', email: 'kate@gmail.com', age: 27 },
 ];
 
 const resolvers = {
