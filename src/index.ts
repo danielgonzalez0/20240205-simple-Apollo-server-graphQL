@@ -9,6 +9,8 @@ const typeDefs = fs.readFileSync(schemaPath, 'utf-8');
 
 const server = new ApolloServer({ typeDefs, resolvers });
 
-server.listen().then(({ url }) => {
+const port = process.env.PORT || 4000;
+
+server.listen({port}).then(({ url }) => {
   console.log(`Server ready at ${url}`);
 });

@@ -11,6 +11,7 @@ const pathName = "../src/graphql/schema.graphql";
 const schemaPath = path_1.default.join(__dirname, pathName);
 const typeDefs = fs_1.default.readFileSync(schemaPath, 'utf-8');
 const server = new apollo_server_1.ApolloServer({ typeDefs, resolvers: resolvers_1.default });
-server.listen().then(({ url }) => {
+const port = process.env.PORT || 4000;
+server.listen({ port }).then(({ url }) => {
     console.log(`Server ready at ${url}`);
 });
