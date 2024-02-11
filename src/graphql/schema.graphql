@@ -1,10 +1,27 @@
 #custom type
+enum Nationality {
+  CANADA
+  BRAZIL
+  INDIA
+  GERMANY
+  CHILE
+}
 
 type User {
   id: ID!
   name: String!
-  email: String!
-  age: Int
+  username: String!
+  age: Int!
+  nationality: Nationality!
+  friends: [User]
+  favoriteMovies: [Movie]
+}
+
+type Movie {
+id: ID!
+title: String!
+yearOfRelease: Int!
+isInTheaters: Boolean!
 }
 
 # The Query type represents all of the entry points for the API.
@@ -14,4 +31,7 @@ type Query {
   test: String!
   users: [User!]! #return array of users min 1 array with 1 user
   user(id: ID!): User!
+  userByNationality(nationality: Nationality!): [User]!
+  movies: [Movie!]!
+  movie(title: String!): Movie!
 }
