@@ -1,5 +1,17 @@
 import { MovieList, userList } from '../data/fakedata';
 
+interface CreateUserInput {
+  id: number;
+  name: string;
+  username: string;
+  age: number;
+  nationality: string;
+}
+interface updateUserNameInput {
+  id: number;
+  newUserName: string;
+}
+
 const resolvers = {
   Query: {
     hello: () => 'Hello, World!',
@@ -18,10 +30,39 @@ const resolvers = {
 
   User: {
     favoriteMovies: () => {
-      return MovieList.filter((movie) => movie.yearOfRelease >= 2000 && movie.yearOfRelease <= 2010);
-    }
-  }
-};
+      return MovieList.filter(
+        (movie) => movie.yearOfRelease >= 2000 && movie.yearOfRelease <= 2010
+      );
+    },
+  },
 
+  Mutation: {
+    createUser: (parent, args: { input: CreateUserInput }) => {
+      const user = args.input;
+      const lastId = userList[userList.length - 1].id;
+      user.id = lastId + 1;
+      userList.push(user);
+      return user;
+    },
+
+    updateUserName: (parent, args: { input: updateUserNameInput }) => {
+      const { id, newUserName } = args.input;
+  
+      const user = userList.find((user) => user.id === Number(id));
+
+      user.username = newUserName;
+      return user;
+    },
+
+    deleteUser: (parent, args: { id: number }) => {
+      const userIndex = userList.findIndex((user) => user.id === Number(args.id));
+      if (userIndex === -1) {
+        throw new Error('User not found.');
+      }
+      userList.splice(userIndex, 1);
+      return args.id
+    }
+  },
+};
 
 export default resolvers;
