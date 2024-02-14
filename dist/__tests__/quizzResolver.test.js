@@ -18,22 +18,38 @@ const schema = (0, schema_1.makeExecutableSchema)({ typeDefs, resolvers: resolve
 const testServer = new apollo_server_1.ApolloServer({ schema });
 // Write your tests
 describe('Resolvers', () => {
-    it('should resolve the `quizz` query', async () => {
+    it('should get all quizzes', async () => {
         const response = await testServer.executeOperation({
             query: `
-        query GetUser($id: ID!) {
-          user(id: $id) {
+        query {
+          quizzes {
             id
-            name
+            title
           }
         }
       `,
             variables: { id: '1' },
         });
         expect(response.errors).toBeUndefined();
-        expect(response.data?.user).toEqual({
+        expect(response.data?.quizzes[0].title).toEqual('HTML');
+        expect(response.data?.quizzes[1].title).toEqual('CSS');
+    });
+    it('should get one specific quizz', async () => {
+        const response = await testServer.executeOperation({
+            query: `
+        query GetQuiz($quizId: ID!) {
+          quiz(id: $quizId) {
+            id
+            title
+          }
+        }
+      `,
+            variables: { quizId: 1 },
+        });
+        expect(response.errors).toBeUndefined();
+        expect(response.data?.quiz).toEqual({
             id: '1',
-            name: 'John Doe',
+            title: 'HTML',
         });
     });
 });

@@ -1,55 +1,31 @@
-#custom type
-enum Nationality {
-  CANADA
-  BRAZIL
-  INDIA
-  GERMANY
-  CHILE
-}
-
-type User {
-  id: ID!
-  name: String!
-  username: String!
-  age: Int!
-  nationality: Nationality!
-  friends: [User]
-  favoriteMovies: [Movie]
-}
-
-type Movie {
+type Quizzes {
 id: ID!
 title: String!
-yearOfRelease: Int!
-isInTheaters: Boolean!
+icon: String!
 }
 
-# The Query type represents all of the entry points for the API.
+type quiz {
+  id: ID!
+  title: String!
+  icon: String!
+  questions: [Question!]!
+}
+
+type Question {
+  question: String!
+  options: [String!]!
+  answer: String!
+  }
+
 
 type Query {
   hello: String!
   test: String!
-  users: [User!]! #return array of users min 1 array with 1 user
-  user(id: ID!): User!
-  userByNationality(nationality: Nationality!): [User]!
-  movies: [Movie!]!
-  movie(title: String!): Movie!
-}
+  quizzes: [Quizzes!]!
+  quiz(id: ID!): quiz
+  }
 
-input CreateUserInput {
-name: String!
-username: String!
-age: Int!
-nationality: Nationality = BRAZIL
-}
 
-input UpdateUserNameInput {
-  id: ID!
-  newUserName: String!
-}
 
-type Mutation {
-  createUser(input: CreateUserInput!): User
-  updateUserName(input: UpdateUserNameInput!): User
-  deleteUser(id: ID!): ID
-}
+
+

@@ -1,4 +1,3 @@
-
 import { ApolloServer } from 'apollo-server';
 import resolvers from '../resolvers/resolvers';
 import fs from 'fs';
@@ -18,13 +17,13 @@ const testServer = new ApolloServer({ schema });
 
 // Write your tests
 describe('Resolvers', () => {
-  it('should resolve the `user` query', async () => {
+  it('should get all quizzes', async () => {
     const response = await testServer.executeOperation({
       query: `
-        query GetUser($id: ID!) {
-          user(id: $id) {
+        query {
+          quizzes {
             id
-            name
+            title
           }
         }
       `,
@@ -32,9 +31,27 @@ describe('Resolvers', () => {
     });
 
     expect(response.errors).toBeUndefined();
-    expect(response.data?.user).toEqual({
+    expect(response.data?.quizzes[0].title).toEqual('HTML');
+    expect(response.data?.quizzes[1].title).toEqual('CSS');
+  });
+
+  it('should get one specific quizz', async () => {
+    const response = await testServer.executeOperation({
+      query: `
+        query GetQuiz($quizId: ID!) {
+          quiz(id: $quizId) {
+            id
+            title
+          }
+        }
+      `,
+      variables: { quizId: 1 },
+    });
+
+    expect(response.errors).toBeUndefined();
+    expect(response.data?.quiz).toEqual({
       id: '1',
-      name: 'John Doe',
+      title: 'HTML',
     });
   });
 });

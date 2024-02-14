@@ -3,9 +3,10 @@ import resolvers from './resolvers/resolvers';
 import path from 'path';
 import fs from 'fs';
 
-const pathName = '../src/graphql/schema.graphql';
-const schemaPath = path.join(__dirname, pathName);
-const typeDefs = fs.readFileSync(schemaPath, 'utf-8');
+const pathSchema = '../src/graphql/schema.graphql';
+const schema = path.join(__dirname, pathSchema);
+const typeDefs = fs.readFileSync(schema, 'utf-8');
+
 
 const server = new ApolloServer({
   typeDefs,

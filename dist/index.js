@@ -7,9 +7,9 @@ const apollo_server_1 = require("apollo-server");
 const resolvers_1 = __importDefault(require("./resolvers/resolvers"));
 const path_1 = __importDefault(require("path"));
 const fs_1 = __importDefault(require("fs"));
-const pathName = '../src/graphql/schema.graphql';
-const schemaPath = path_1.default.join(__dirname, pathName);
-const typeDefs = fs_1.default.readFileSync(schemaPath, 'utf-8');
+const pathSchema = '../src/graphql/schema.graphql';
+const schema = path_1.default.join(__dirname, pathSchema);
+const typeDefs = fs_1.default.readFileSync(schema, 'utf-8');
 const server = new apollo_server_1.ApolloServer({
     typeDefs,
     resolvers: resolvers_1.default,
