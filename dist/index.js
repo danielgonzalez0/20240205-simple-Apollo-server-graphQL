@@ -18,6 +18,7 @@ const server = new apollo_server_1.ApolloServer({
         origin: [
             'http://localhost:5173',
             'https://20240119-ts-react-frontend-quizz-app.vercel.app/',
+            'https://backend-app-quizz-5908c890fdf5.herokuapp.com/',
         ],
         credentials: true,
     },
