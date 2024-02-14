@@ -1,17 +1,31 @@
-#custom type
-
-type User {
-  id: ID!
-  name: String!
-  email: String!
-  age: Int
+type Quizzes {
+id: ID!
+title: String!
+icon: String!
 }
 
-# The Query type represents all of the entry points for the API.
+type quiz {
+  id: ID!
+  title: String!
+  icon: String!
+  questions: [Question!]!
+}
+
+type Question {
+  question: String!
+  options: [String!]!
+  answer: String!
+  }
+
 
 type Query {
   hello: String!
   test: String!
-  users: [User!]! #return array of users min 1 array with 1 user
-  user(id: ID!): User!
-}
+  quizzes: [Quizzes!]!
+  quiz(id: ID!): quiz
+  }
+
+
+
+
+

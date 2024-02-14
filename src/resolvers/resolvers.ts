@@ -1,22 +1,29 @@
-const users = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@gmail.com',
-    age: 25,
-  },
-  { id: 2, name: 'Jane Doe', email: 'jane@gmail.com', age: 26 },
-  { id: 3, name: 'kate Doe', email: 'kate@gmail.com', age: 27 },
-];
+import { loadQuizzesData } from "../data/loadData";
+
+const quizzes = loadQuizzesData();
 
 const resolvers = {
   Query: {
-    hello: () => 'Hello, World!',
-    test: () => 'Test1',
-    users: () => users,
-    user: (parent, args: { id: number | string }) =>
-      users.find((user) => user.id === Number(args.id)),
+   quizzes:  ()=> quizzes,
+   quiz: (parent, args) => {
+      return quizzes.find((quiz) => quiz.id === Number(args.id));
+   }
+  
+
+    // users: () => userList,
+    // user: (_, args: { id: number | string }) =>
+    //   userList.find((user) => user.id === Number(args.id)),
+    // userByNationality: (parent, args: { nationality: string }) => {
+    //   return userList.filter((user) => user.nationality === args.nationality);
+    // },
+    // //movies resolvers
+    // movies: () => MovieList,
+    // movie: (_, args: { title: string }) =>
+    //   MovieList.find((movie) => movie.title === args.title),
   }, // Add a comma here
+
+ 
+ 
 };
 
 export default resolvers;
