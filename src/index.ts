@@ -12,6 +12,13 @@ const server = new ApolloServer({
   typeDefs,
   resolvers,
   cache: 'bounded',
+  cors: {
+    origin: [
+      'http://localhost:5173',
+      'https://20240119-ts-react-frontend-quizz-app.vercel.app/',
+    ],
+    credentials: true,
+  },
 });
 
 const port = process.env.PORT || 4000;
