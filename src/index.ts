@@ -13,7 +13,6 @@ const typeDefs = fs.readFileSync(schema, 'utf-8');
 
 const corsUrls = process.env.CORS_URLS.split(',');
 
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,
