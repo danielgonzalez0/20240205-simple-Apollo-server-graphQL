@@ -24,6 +24,7 @@ const server = new apollo_server_1.ApolloServer({
     },
 });
 const port = process.env.PORT || 4000;
+console.log('port', port);
 server.listen({ port }).then(({ url }) => {
     console.log(`Server ready at ${url}`);
 });
