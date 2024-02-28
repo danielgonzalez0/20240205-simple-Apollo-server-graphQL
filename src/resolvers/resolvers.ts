@@ -1,6 +1,10 @@
+
 import { loadQuizzesData } from "../data/loadData";
 
 const quizzes = loadQuizzesData();
+
+
+
 
 const resolvers = {
   Query: {

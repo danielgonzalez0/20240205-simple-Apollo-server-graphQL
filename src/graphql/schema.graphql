@@ -2,12 +2,14 @@ type Quizzes {
 id: ID!
 title: String!
 icon: String!
+color: String!
 }
 
 type quiz {
   id: ID!
   title: String!
   icon: String!
+  color: String!
   questions: [Question!]!
 }
 
