@@ -28,6 +28,9 @@ RUN apt-get update -qq && \
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --frozen-lockfile
 
+# Install TypeScript globally
+RUN npm install -g typescript
+
 # Copy application code
 COPY . .
 
@@ -37,6 +40,9 @@ RUN pnpm run compile
 
 # Final stage for app image
 FROM base
+
+# Install TypeScript globally in the final image
+RUN npm install -g typescript
 
 # Copy built application
 COPY --from=build /app /app
