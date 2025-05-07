@@ -26,7 +26,11 @@ const server = new ApolloServer({
 const port = process.env.PORT || 4000;
 console.log('port', port);
 
-
-server.listen({ port }).then(({ url }) => {
-  console.log(`Server ready at ${url}`);
-});
+server
+  .listen({
+    port,
+    host: '0.0.0.0', // Écouter sur toutes les interfaces réseau
+  })
+  .then(({ url }) => {
+    console.log(`Server ready at ${url}`);
+  });
