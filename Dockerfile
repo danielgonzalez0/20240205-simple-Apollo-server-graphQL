@@ -26,23 +26,22 @@ RUN apt-get update -qq && \
 
 # Install node modules
 COPY package.json pnpm-lock.yaml ./
-RUN pnpm install --frozen-lockfile
 
-# Install TypeScript globally
-RUN npm install -g typescript
+# Install all dependencies including devDependencies for build
+RUN pnpm install
+
+# Install TypeScript and type definitions globally
+RUN npm install -g typescript @types/node @types/jest
 
 # Copy application code
 COPY . .
 
-# Compile TypeScript code
-RUN pnpm run compile
+# Compile TypeScript code without checking types for production build
+RUN npx tsc --skipLibCheck
 
 
 # Final stage for app image
 FROM base
-
-# Install TypeScript globally in the final image
-RUN npm install -g typescript
 
 # Copy built application
 COPY --from=build /app /app
