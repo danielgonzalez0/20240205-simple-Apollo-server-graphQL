@@ -1,0 +1,123 @@
+tape 1 : Installer l'outil de ligne de commande Fly.io
+Cette commande télécharge le script d'installation de l'outil Fly.io et l'exécute. C'est comme npm install mais pour une application de ligne de commande.
+
+Étape 2 : Créer un compte et se connecter
+Ou si vous avez déjà un compte :
+
+Cette commande vous authentifie auprès de Fly.io, comme lorsque vous vous connectez à Heroku.
+
+Étape 3 : Initialiser votre application
+Dans le répertoire de votre projet :
+
+Cette commande interactive vous guidera pour :
+
+Donner un nom à votre application (il doit être unique sur Fly.io)
+
+=> simple-graphql 
+
+
+Choisir une région pour le déploiement (choisissez une proche de votre audience)
+Configurer une base de données si nécessaire (vous pouvez sauter cette étape)
+Vous proposera de créer un fichier Dockerfile
+Étape 4 : Créer un Dockerfile
+Si l'assistant ne l'a pas fait, créons un Dockerfile manuellement. Ce fichier explique comment construire l'environnement pour votre application.
+
+Créons un fichier nommé Dockerfile à la racine de votre projet avec ce contenu :
+
+Ce Dockerfile fait plusieurs choses :
+
+Utilise une image Node.js légère (alpine)
+Installe pnpm
+Copie les fichiers de dépendances et les installe
+Copie le reste du code source
+Compile le TypeScript
+Configure le port à 8080
+Définit la commande pour démarrer l'application
+Étape 5 : Configurer le fichier fly.toml
+Le fichier fly.toml est comme un "package.json" pour Fly.io. Il indique comment votre application doit être déployée et configurée.
+
+Les sections importantes :
+
+app : nom unique de votre application
+http_service : configuration du serveur HTTP
+internal_port : port sur lequel votre application écoute (doit correspondre à EXPOSE dans le Dockerfile)
+min_machines_running = 0 : permet à l'application de s'arrêter quand elle n'est pas utilisée (économise vos ressources gratuites)
+Étape 6 : Configurer les variables d'environnement
+Pour configurer votre variable CORS_URLS :
+
+Cette commande est similaire à la configuration des variables d'environnement dans Heroku, mais avec une syntaxe différente.
+
+Étape 7 : Déployer votre application
+Cette commande :
+
+Lit votre configuration dans fly.toml
+Construit une image Docker à partir de votre Dockerfile
+Pousse cette image vers Fly.io
+Démarre votre application
+Étape 8 : Vérifier le déploiement
+Cette commande vous montre l'état de votre application.
+
+Pour voir les logs :
+
+Étape 9 : Configurer l'URL dans votre frontend
+Votre application aura une URL du type https://votre-nom-unique-app.fly.dev. Vous devrez mettre à jour votre application frontend pour utiliser cette nouvelle URL.
+
+Étape 10 : Configurer l'intégration CI/CD (optionnel)
+Si vous voulez automatiser le déploiement via GitHub Actions :
+
+Générer un token :
+Ajouter ce token comme secret GitHub (FLY_API_TOKEN)
+
+Mettre à jour votre workflow GitHub Actions
+
+
+
+Absolument, vous avez raison ! Il faut configurer les variables d'environnement sur Fly.io et mettre à jour votre workflow GitHub Actions. Faisons cela.
+
+1. Configurer les variables d'environnement sur Fly.io
+Pour configurer votre variable d'environnement CORS_URLS sur Fly.io, exécutez cette commande :
+
+Cela ajoutera la variable d'environnement CORS_URLS à votre application Fly.io, permettant à votre serveur GraphQL d'accepter les requêtes de ces origines.
+
+2. Mettre à jour votre GitHub Actions workflow
+Maintenant, modifions votre workflow GitHub Actions pour déployer sur Fly.io au lieu de Heroku :
+
+Read main.yml
+
+Je vois votre fichier de workflow GitHub Actions actuel qui est configuré pour déployer sur Heroku. Modifions-le pour déployer sur Fly.io à la place.
+
+main.yml+21-7
+
+Parfaitement. Maintenant que nous avons mis à jour votre workflow GitHub Actions pour déployer sur Fly.io au lieu de Heroku, il reste une étape cruciale : générer et configurer un token d'API Fly.io pour permettre au workflow GitHub Actions de déployer automatiquement votre application.
+
+3. Générer un token d'API Fly.io et le configurer dans GitHub
+Générez un token d'API Fly.io en exécutant cette commande dans votre terminal :
+Cette commande vous fournira un token sous forme de chaîne de caractères.
+
+Ajoutez ce token comme secret dans votre dépôt GitHub :
+
+Allez dans votre dépôt GitHub
+Cliquez sur "Settings" > "Secrets and variables" > "Actions"
+Cliquez sur "New repository secret"
+Nommez-le FLY_API_TOKEN et collez votre token Fly.io
+Cliquez sur "Add secret"
+Ajoutez également votre variable CORS_URLS comme secret :
+
+Dans la même page "Secrets and variables"
+Cliquez sur "New repository secret"
+Nommez-le CORS_URLS et collez la chaîne de vos URLs autorisées
+Exemple : http://localhost:5173,http://localhost:4000,https://studio.apollographql.com,https://20240119-ts-react-frontend-quizz-app.vercel.app,https://simple-graphql.fly.dev
+Cliquez sur "Add secret"
+Récapitulatif des actions effectuées
+✅ Nous avons configuré votre code pour écouter sur toutes les interfaces réseau (0.0.0.0)
+✅ Nous avons modifié votre Dockerfile pour utiliser le port 4000 et compiler correctement TypeScript
+✅ Nous avons modifié votre workflow GitHub Actions pour déployer sur Fly.io au lieu de Heroku
+✅ Vous avez une commande pour configurer la variable d'environnement CORS_URLS sur Fly.io
+✅ Vous avez les instructions pour configurer les secrets nécessaires dans GitHub
+Après avoir configuré les secrets GitHub, n'oubliez pas de pousser vos modifications vers votre dépôt GitHub. Lors du prochain push sur la branche main, votre workflow GitHub Actions devrait automatiquement déployer votre application sur Fly.io.
+
+Conseils supplémentaires
+Vous pourriez ajouter un fichier .dockerignore pour exclure certains fichiers de votre image Docker, comme les fichiers de test ou la documentation
+Pensez à mettre à jour votre README pour documenter que l'application est maintenant hébergée sur Fly.io et non plus sur Heroku
+Surveillez la première exécution du workflow GitHub Actions pour vous assurer que tout fonctionne correctement
+Y a-t-il autre chose que vous aimeriez que je vous aide à configurer ou à améliorer dans votre déploiement?
